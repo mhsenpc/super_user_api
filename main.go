@@ -16,13 +16,13 @@ func reload_nginx(w http.ResponseWriter, r *http.Request){
     stdout, err := cmd.Output()
 
     if err != nil {
-        w.Write(w, err.Error())
+        w.Write(err.Error())
         fmt.Println(err.Error())
         return
     }
 
     // Print the output
-    w.Write(w, stdout)
+    w.Write(stdout)
     fmt.Println(string(stdout))
 }
 
