@@ -16,20 +16,20 @@ func reload_nginx(w http.ResponseWriter, r *http.Request){
     stdout, err := cmd.Output()
 
     if err != nil {
-        fmt.Fprintf(w, err.Error())
+        w.Write(w, err.Error())
         fmt.Println(err.Error())
         return
     }
 
     // Print the output
-    fmt.Fprintf(w, stdout)
+    w.Write(w, stdout)
     fmt.Println(string(stdout))
 }
 
 func handleRequests() {
     http.HandleFunc("/", home)
     http.HandleFunc("/reload_nginx", reload_nginx)
-    log.Fatal(http.ListenAndServe("127.0.0.1:10000", nil))
+    log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
 func main() {
