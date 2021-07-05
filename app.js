@@ -16,7 +16,8 @@ app.get('/compose_up', (req, res) => {
 
 app.get('/compose_down', (req, res) => {
     var compose_dir = req.query.compose_dir;
-    execCommand("cd " + compose_dir + ";docker-compose down", res);
+    var site_name = req.query.site_name;
+    execCommand("cd " + compose_dir + ";docker-compose --project-name " + site_name + " down", res);
 })
 
 app.get('/reload_nginx', (req, res) => {
