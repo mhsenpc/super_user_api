@@ -3,6 +3,7 @@ const app = express()
 const port = 10000
 const {exec} = require("child_process");
 
+const log = require('simple-node-logger').createSimpleLogger('/var/log/super_user_api.log');
 
 app.get('/', (req, res) => {
     res.send('Super User API');
@@ -43,8 +44,9 @@ app.listen(port, () => {
 
 function execCommand(command, res) {
     exec(command, (error, stdout, stderr) => {
+        log.info(command);
         if (error) {
-            console.log(`error: ${error.message}`);
+            log.error(`error: ${error.message}`)
             var result = JSON.stringify({
                 success: false,
                 data: error.message,
@@ -53,7 +55,7 @@ function execCommand(command, res) {
             return;
         }
         if (stderr) {
-            console.log(`stderr: ${stderr}`);
+            log.error(`stderr: ${stderr}`)
             var result = JSON.stringify({
                 success: false,
                 data: stderr,
@@ -61,7 +63,7 @@ function execCommand(command, res) {
             res.send(result);
             return;
         }
-        console.log(`stdout: ${stdout}`);
+        log.info(`stdout: ${stdout}`)
         var result = JSON.stringify({
             success: true,
             data: stdout,
