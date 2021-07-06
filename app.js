@@ -24,6 +24,11 @@ app.get('/reload_nginx', (req, res) => {
     execCommand("/usr/sbin/nginx -s reload", res);
 })
 
+app.get('/inspect', (req, res) => {
+    var site_name = req.query.site_name;
+    execCommand("docker inspect " + site_name, res);
+})
+
 app.get('/remove_site', (req, res) => {
     var email = req.query.email;
     var site_name = req.query.site_name;
