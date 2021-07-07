@@ -30,6 +30,12 @@ app.get('/inspect', (req, res) => {
     execCommand("docker inspect " + site_name, res);
 })
 
+app.get('/exec', (req, res) => {
+    var site_name = req.query.site_name;
+    var command = req.query.command;
+    execCommand("docker exec " + site_name + ' ' + command + ' 2>&1', res);
+})
+
 app.get('/remove_site', (req, res) => {
     var email = req.query.email;
     var site_name = req.query.site_name;
