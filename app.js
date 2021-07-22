@@ -44,6 +44,11 @@ app.get('/remove_site', (req, res) => {
     execCommand(queries, res);
 })
 
+app.get('/remove_dir', (req, res) => {
+    var dir = req.query.dir;
+    execCommand("rm -rf " + dir , res);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://0.0.0.0:${port}`) //TODO: make it 127.0.0.1
 })
