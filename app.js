@@ -46,7 +46,13 @@ app.get('/remove_site', (req, res) => {
 
 app.get('/remove_dir', (req, res) => {
     var dir = req.query.dir;
-    execCommand("rm -rf " + dir , res);
+    execCommand("rm -rf " + dir, res);
+})
+
+app.get('/generate_key_pair', (req, res) => {
+    var email = req.query.output_dir;
+    var output_dir = req.query.output_dir;
+    execCommand('ssh-keygen -t rsa -b 4096 -C "' + email + '" -f ' + output_dir + '/id_rsa -P ""', res);
 })
 
 app.listen(port, () => {
