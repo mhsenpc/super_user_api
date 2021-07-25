@@ -55,6 +55,20 @@ app.get('/generate_key_pair', (req, res) => {
     execCommand('ssh-keygen -t rsa -b 4096 -C "' + email + '" -f ' + output_dir + '/id_rsa -P ""', res);
 })
 
+app.get('/new_file', (req, res) => {
+    var file_name = req.query.file_name;
+    var content = req.query.content;
+
+    fs = require('fs');
+    fs.writeFile(file_name, content);
+
+    var result = JSON.stringify({
+        success: true,
+        data: "file created",
+    });
+    res.send(result);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://0.0.0.0:${port}`) //TODO: make it 127.0.0.1
 })
