@@ -50,7 +50,7 @@ app.get('/remove_dir', (req, res) => {
 })
 
 app.get('/generate_key_pair', (req, res) => {
-    var email = req.query.output_dir;
+    var email = req.query.email;
     var output_dir = req.query.output_dir;
     execCommand('ssh-keygen -t rsa -b 4096 -C "' + email + '" -f ' + output_dir + '/id_rsa -P ""', res);
 })
