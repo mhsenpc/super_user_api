@@ -39,9 +39,12 @@ app.get('/exec', (req, res) => {
 app.get('/remove_site', (req, res) => {
     var email = req.query.email;
     var site_name = req.query.site_name;
-    var queries = "rm -rf /home/repos/" + email + "/" + site_name + ";";
-    queries += "rm -rf /etc/nginx/conf.d/" + "/" + site_name + ".conf;";
-    execCommand(queries, res);
+    execCommand("rm -rf /home/repos/" + email + "/" + site_name , res);
+})
+
+app.get('/remove_domain_config', (req, res) => {
+    var domain = req.query.domain;
+    execCommand("rm -rf /etc/nginx/conf.d/" + "/" + domain + ".conf", res);
 })
 
 app.get('/remove_dir', (req, res) => {
