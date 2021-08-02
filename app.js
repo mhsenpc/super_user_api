@@ -58,6 +58,11 @@ app.get('/generate_key_pair', (req, res) => {
     execCommand('ssh-keygen -t rsa -b 4096 -C "' + email + '" -f ' + output_dir + '/id_rsa -P ""', res);
 })
 
+app.get('/restart_container', (req, res) => {
+    var container_name = req.query.container_name;
+    execCommand('docker restart ' + container_name, res);
+})
+
 app.get('/ping', (req, res) => {
     var result = JSON.stringify({
         success: true,
