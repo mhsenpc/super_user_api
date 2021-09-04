@@ -89,8 +89,8 @@ app.get('/bind_domain', (req, res) => {
     fs = require('fs');
 
     var domain = req.query.domain;
-    let partial_config = fs.readFileSync("dns.partial.config");
-    let bind_config = fs.readFileSync("dns_config.template");
+    let partial_config = fs.readFileSync(__dirname +  "/dns.partial.config");
+    let bind_config = fs.readFileSync(__dirname+ "/dns_config.template");
 
     partial_config = partial_config.replace('$domain',domain);
     bind_config = bind_config.replace('$domain',domain);
