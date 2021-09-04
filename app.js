@@ -85,6 +85,29 @@ app.get('/new_file', (req, res) => {
     res.send(result);
 })
 
+app.get('/bind_domain', (req, res) => {
+    var domain = req.query.domain;
+    let partial_config = readFileSync("dns.partial.config");
+    let bind_config = readFileSync("dns_config.template");
+
+    partial_config = partial_config.replace('$domain',domain);
+    bind_config = bind_config.replace('$domain',domain);
+
+    fs = require('fs');
+    fs.writeFile("/var/named/" + domain + ".db", bind_config);
+    fs.appendFile("/etc/named.conf", partial_config);
+
+    var result = JSON.stringify({
+        success: true,
+        data: "/var/named/" + domain + ".db " + " created",
+    });
+    res.send(result);
+})
+
+app.get('/reload_dns', (req, res) => {
+    execCommand("service named reload", res);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://0.0.0.0:${port}`) //TODO: make it 127.0.0.1
 })

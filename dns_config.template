@@ -1,0 +1,15 @@
+$TTL 86400
+$domain.   IN  SOA     ns1.lara-host.ir. root.lara-host.ir. (
+        2013042201  ;Serial
+        3600        ;Refresh
+        1800        ;Retry
+        604800      ;Expire
+        86400       ;Minimum TTL
+)
+; Specify our two nameservers
+$domain.               IN      NS              ns1.lara-host.ir.
+$domain.               IN      NS              ns2.lara-host.ir.
+
+; Define hostname -> IP pairs which you wish to resolve
+$domain.               IN      A               185.86.180.106
+www             IN      A               185.86.180.106
