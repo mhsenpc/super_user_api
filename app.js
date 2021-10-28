@@ -71,6 +71,16 @@ app.get('/ping', (req, res) => {
     res.send(result);
 })
 
+app.get('/new_folder', (req, res) => {
+	var path = req.query.path;
+    execCommand('mkdir -p ' + path, res);
+    var result = JSON.stringify({
+        success: true,
+        data: 'ok',
+    });
+    res.send(result);
+})
+
 app.get('/new_file', (req, res) => {
     var file_name = req.query.file_name;
     var content = req.query.content;
@@ -110,7 +120,7 @@ app.get('/reload_dns', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://0.0.0.0:${port}`) //TODO: make it 127.0.0.1
+    console.log(`Example app listening at http://127.0.0.1:${port}`)
 })
 
 function execCommand(command, res) {
