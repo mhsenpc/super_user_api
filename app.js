@@ -75,11 +75,6 @@ app.get('/ping', (req, res) => {
 app.get('/new_folder', (req, res) => {
 	var path = req.query.path;
     execCommand('mkdir -p ' + path, res);
-    var result = JSON.stringify({
-        success: true,
-        data: 'ok',
-    });
-    res.send(result);
 })
 
 app.get('/new_file', (req, res) => {
