@@ -36,6 +36,7 @@ app.get('/exec', (req, res) => {
     execCommand("docker exec " + site_name + ' ' + command + ' 2>&1', res);
 })
 
+//backward compatibility
 app.get('/remove_site', (req, res) => {
     var email = req.query.email;
     var site_name = req.query.site_name;
