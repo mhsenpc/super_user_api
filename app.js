@@ -46,6 +46,7 @@ app.get('/exec', (req, res) => {
             data: `${data}`,
         });
         res.send(result);
+        return;
     });
 
     newProc.stderr.on('data', (data) => {
@@ -55,6 +56,7 @@ app.get('/exec', (req, res) => {
             data: `${data}`,
         });
         res.send(result);
+        return;
     });
 
 
