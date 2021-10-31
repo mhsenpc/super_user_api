@@ -45,6 +45,7 @@ app.get('/exec', (req, res) => {
             success: true,
             data: data,
         });
+        res.send(result);
     });
 
     newProc.stderr.on('data', (data) => {
@@ -53,9 +54,10 @@ app.get('/exec', (req, res) => {
             success: false,
             data: data,
         });
+        res.send(result);
     });
 
-    res.send(result);
+
 })
 
 //backward compatibility
