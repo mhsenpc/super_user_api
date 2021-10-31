@@ -39,11 +39,11 @@ app.get('/exec', (req, res) => {
     const newProc = spawn('docker', args);
 
     var result ;
-    newProc.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+    newProc.on('error', (err) => {
+        console.log(`stderr: ${err.message}`);
         var result = JSON.stringify({
-            success: true,
-            data: `${data}`,
+            success: false,
+            data: `${err.message}`,
         });
         res.send(result);
         return;
@@ -58,6 +58,17 @@ app.get('/exec', (req, res) => {
         res.send(result);
         return;
     });
+
+    newProc.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        var result = JSON.stringify({
+            success: true,
+            data: `${data}`,
+        });
+        res.send(result);
+        return;
+    });
+
 
 
 })
