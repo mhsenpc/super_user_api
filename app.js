@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 10000
 const {exec} = require("child_process");
+const { spawn } = require('child_process');
 
 const log = require('simple-node-logger').createSimpleLogger('/var/log/super_user_api.log');
 
@@ -33,7 +34,28 @@ app.get('/inspect', (req, res) => {
 app.get('/exec', (req, res) => {
     var site_name = req.query.site_name;
     var command = req.query.command;
-    execCommand("docker exec " + site_name + ' sh -c \'' + command + '\' 2>&1',res);
+
+    const args = ['exec',  site_name,].concat(command.split(" "));
+    const newProc = spawn('docker', args);
+
+    var result ;
+    newProc.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        var result = JSON.stringify({
+            success: true,
+            data: data,
+        });
+    });
+
+    newProc.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+        var result = JSON.stringify({
+            success: false,
+            data: data,
+        });
+    });
+
+    res.send(result);
 })
 
 //backward compatibility
