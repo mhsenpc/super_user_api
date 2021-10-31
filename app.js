@@ -33,7 +33,7 @@ app.get('/inspect', (req, res) => {
 app.get('/exec', (req, res) => {
     var site_name = req.query.site_name;
     var command = req.query.command;
-    execCommand("docker exec " + site_name + ' ' + command + ' 2>&1', res);
+    execCommand("docker exec " + site_name + ' sh -c \'' + command + '\' 2>&1',res);
 })
 
 //backward compatibility
@@ -77,6 +77,7 @@ app.get('/new_folder', (req, res) => {
     execCommand('mkdir -p ' + path, res);
 })
 
+//backward compatibility
 app.get('/new_file', (req, res) => {
     var file_name = req.query.file_name;
     var content = req.query.content;
@@ -87,6 +88,20 @@ app.get('/new_file', (req, res) => {
     var result = JSON.stringify({
         success: true,
         data: "file created",
+    });
+    res.send(result);
+})
+
+app.post('/put_contents', (req, res) => {
+    var file_name = res.body.file_name;
+    var content = req.query.content;
+
+    fs = require('fs');
+    fs.writeFile(file_name, content);
+
+    var result = JSON.stringify({
+        success: true,
+        data: "contents saved",
     });
     res.send(result);
 })
