@@ -6,7 +6,7 @@ const {exec} = require("child_process");
 const log = require('simple-node-logger').createSimpleLogger('/var/log/super_user_api.log');
 
 app.get('/', (req, res) => {
-    res.send('Super User API');
+    res.redirect("http://lara-host.ir");
 })
 
 app.get('/compose_up', (req, res) => {
@@ -92,7 +92,11 @@ app.get('/new_file', (req, res) => {
     res.send(result);
 })
 
-app.post('/put_contents', (req, res) => {
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
+app.post('/put_contents',(req, res) => {
     var file_name = req.body.file_name;
     var content = req.body.content;
 
