@@ -35,7 +35,7 @@ app.get('/exec', (req, res) => {
     var site_name = req.query.site_name;
     var command = req.query.command;
 
-    const args = ['exec',  site_name,].concat(command.split(" "));
+    const args = ['exec',  site_name].concat(command.split(" "));
     const newProc = spawn('docker', args);
 
     var result ;
