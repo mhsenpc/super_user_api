@@ -93,8 +93,8 @@ app.get('/new_file', (req, res) => {
 })
 
 app.post('/put_contents', (req, res) => {
-    var file_name = res.body.file_name;
-    var content = req.query.content;
+    var file_name = req.body.file_name;
+    var content = req.body.content;
 
     fs = require('fs');
     fs.writeFile(file_name, content);
