@@ -35,7 +35,7 @@ app.get('/exec', (req, res) => {
     var site_name = req.query.site_name;
     var command = req.query.command;
 
-    const args = ['exec',  site_name].concat(command.split(" "));
+    var args = ['exec',  site_name].concat(command.split(" "));
     const newProc = spawn('docker', args);
 
     var result ;
@@ -43,7 +43,7 @@ app.get('/exec', (req, res) => {
         console.log(`stdout: ${data}`);
         var result = JSON.stringify({
             success: true,
-            data: data,
+            data: `${data}`,
         });
         res.send(result);
     });
@@ -52,7 +52,7 @@ app.get('/exec', (req, res) => {
         console.log(`stderr: ${data}`);
         var result = JSON.stringify({
             success: false,
-            data: data,
+            data: `${data}`,
         });
         res.send(result);
     });
@@ -97,7 +97,7 @@ app.get('/ping', (req, res) => {
 })
 
 app.get('/new_folder', (req, res) => {
-	var path = req.query.path;
+    var path = req.query.path;
     execCommand('mkdir -p ' + path, res);
 })
 
