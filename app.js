@@ -49,6 +49,15 @@ app.get('/exec', (req, res) => {
         return;
     });
 
+    newProc.on('close', (code) => {
+        console.log(`close: ${code}`);
+        var result = JSON.stringify({
+            success: false,
+        });
+        res.end(result);
+        return;
+    });
+
     newProc.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
         var result = JSON.stringify({
