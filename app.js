@@ -51,7 +51,6 @@ app.get('/exec', (req, res) => {
     newProc.on('close', (code) => {
         console.log(`close: ${code}`);
         if(exec_result == undefined){
-
             exec_result = JSON.stringify({
                 success: false,
             });
@@ -75,6 +74,11 @@ app.get('/exec', (req, res) => {
     });
 
     newProc.on('exit', () => {
+        if(exec_result == undefined){
+            exec_result = JSON.stringify({
+                success: false,
+            });
+        }
         res.end(exec_result);
         return;
     });
