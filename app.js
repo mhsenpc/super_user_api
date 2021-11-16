@@ -45,7 +45,7 @@ app.get('/exec', (req, res) => {
             success: false,
             data: `${err.message}`,
         });
-        res.end(result);
+        res.send(result);
         return;
     });
 
@@ -54,7 +54,7 @@ app.get('/exec', (req, res) => {
         var result = JSON.stringify({
             success: false,
         });
-        res.end(result);
+        res.send(result);
         return;
     });
 
@@ -64,7 +64,7 @@ app.get('/exec', (req, res) => {
             success: false,
             data: `${data}`,
         });
-        res.end(result);
+        res.send(result);
         return;
     });
 
@@ -74,9 +74,15 @@ app.get('/exec', (req, res) => {
             success: true,
             data: `${data}`,
         });
-        res.end(result);
+        res.send(result);
         return;
     });
+
+    newProc.on('exit', () => {
+        res.end();
+        return;
+    });
+
 })
 
 //backward compatibility
