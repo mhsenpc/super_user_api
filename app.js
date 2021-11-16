@@ -5,6 +5,7 @@ const {exec} = require("child_process");
 const { spawn } = require('child_process');
 
 const log = require('simple-node-logger').createSimpleLogger('/var/log/super_user_api.log');
+let exec_result ;
 
 app.get('/', (req, res) => {
     res.redirect("http://lara-host.ir");
@@ -38,48 +39,43 @@ app.get('/exec', (req, res) => {
     var args = ['exec',  site_name].concat(command.split(" "));
     const newProc = spawn('docker', args);
 
-    var result ;
+    exec_result = undefined;
     newProc.on('error', (err) => {
         console.log(`error: ${err.message}`);
-        var result = JSON.stringify({
+        exec_result = JSON.stringify({
             success: false,
             data: `${err.message}`,
         });
-        res.send(result);
-        return;
     });
 
     newProc.on('close', (code) => {
         console.log(`close: ${code}`);
-        var result = JSON.stringify({
-            success: false,
-        });
-        res.send(result);
-        return;
+        if(exec_result == undefined){
+
+            exec_result = JSON.stringify({
+                success: false,
+            });
+        }
     });
 
     newProc.stderr.on('data', (data) => {
         console.log(`stderr: ${data}`);
-        var result = JSON.stringify({
+        exec_result = JSON.stringify({
             success: false,
             data: `${data}`,
         });
-        res.send(result);
-        return;
     });
 
     newProc.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
-        var result = JSON.stringify({
+        exec_result = JSON.stringify({
             success: true,
             data: `${data}`,
         });
-        res.send(result);
-        return;
     });
 
     newProc.on('exit', () => {
-        res.end();
+        res.end(exec_result);
         return;
     });
 
